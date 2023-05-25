@@ -7,9 +7,7 @@ const authenticateJWT = async (req, res, next) => {
     if(!idToken){
         throw new Error('No token provided')
     };
-    console.log("before verify")
     const decodedToken = await admin.auth().verifyIdToken(idToken);
-    console.log("after verify")
     req.user = decodedToken;
     next();
   } catch(error){
