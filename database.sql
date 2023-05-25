@@ -34,6 +34,7 @@ CREATE TABLE employees (
   address TEXT,
   date_of_birth DATE,
   age INT,
+  job_title VARCHAR(50),
   department_id INT,
   email VARCHAR(50),
   FOREIGN KEY (department_id) REFERENCES department(department_id)
