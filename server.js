@@ -1,7 +1,8 @@
+require('dotenv').config();
 const express = require('express')
 const app = express();
 const PORT = 3000;
-const serviceaccount = require('./serviceaccountkey.json')
+const serviceaccount = JSON.parse(process.env.SERVICE_ACCOUNT_KEY)
 const admin = require('firebase-admin')
 const connection = require('./database')
 
