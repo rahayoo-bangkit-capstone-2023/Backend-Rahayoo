@@ -6,7 +6,6 @@ const serviceaccount = JSON.parse(process.env.SERVICE_ACCOUNT_KEY)
 const admin = require('firebase-admin')
 const connection = require('./database')
 
-
 // IMPORT ROUTES HERE
 const authRouter = require('./routes/auth')
 
