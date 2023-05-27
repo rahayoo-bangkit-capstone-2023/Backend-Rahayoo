@@ -7,5 +7,6 @@ steps:
       - '-f'
       - 'Dockerfile'
       - '.'
+      
 images:
   - 'gcr.io/$PROJECT_ID/my-image:${SHORT_SHA}'
