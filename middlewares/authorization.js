@@ -2,7 +2,6 @@ const admin = require('firebase-admin');
 
 const authenticateJWT = async (req, res, next) => {
   const idToken = req.headers.authorization;
-
   try {
     if(!idToken){
         throw new Error('No token provided')

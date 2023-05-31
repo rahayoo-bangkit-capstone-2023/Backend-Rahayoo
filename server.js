@@ -10,7 +10,7 @@ const connection = require('./database')
 const authRouter = require('./routes/auth')
 
 // IMPORT MIDDLEWARES HERE
-const authenticateJWT = require('./middlewares/authorization')
+const authenticateToken = require('./middlewares/authorization')
 
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
@@ -31,7 +31,7 @@ app.get('/', (req, res)  => {
 })
 
 // ROUTER HERE
-app.use('/api/auth', authenticateJWT, authRouter);
+app.use('/api/auth', authenticateToken, authRouter);
 
 
 app.post('/company/:input', async (req, res)=> {

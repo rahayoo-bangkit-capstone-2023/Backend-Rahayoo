@@ -1,19 +1,24 @@
-const mysql = require('mysql');
+const {Client} = require('pg');
+const host = process.env.DB_HOST
+const user = process.env.DB_USER
+const password = process.env.DB_PASSWORD
+const database = process.env.DB_NAME
 
-const connection = mysql.createConnection({
-    host: '34.101.125.193',
-    user: 'root',
-    password: 'password',
-    database: 'rahayoo_app'
+const client =new Client ({
+    host: host,
+    user: user,
+    password: password,
+    database: database,
+    port: 5432,
 })
 
 // Establish the MySQL connection
-connection.connect((err) => {
+client.connect((err) => {
     if (err) {
-      console.error('Error connecting to MySQL:', err);
+      console.error('Error connecting to database:', err);
       return;
     }
-    console.log('Connected to MySQL database');
+    console.log('Connected to Postgres database');
   });
   
-  module.exports = connection;
+  module.exports = client;
