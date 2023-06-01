@@ -8,9 +8,11 @@ const connection = require('./database')
 
 // IMPORT ROUTES HERE
 const authRouter = require('./routes/auth')
+const stressLevelRouter = require('./routes/stresslevel')
 
 // IMPORT MIDDLEWARES HERE
 const authenticateToken = require('./middlewares/authorization')
+
 
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
@@ -40,3 +42,13 @@ app.post('/company/:input', async (req, res)=> {
     await connection.query(sql, [userInput]);
     res.status(200).json({message: 'New Company Added'});
 })
+
+
+app.use('/api/stress', stressLevelRouter);
+
+app.post('/company/:input', async (req, res) => {
+  const userInput = req.params.input;
+  const sql = 'INSERT INTO company (company_name) VALUES (?)';
+  await connection.query(sql, [userInput]);
+  res.status(200).json({ message: 'New Company Added' });
+});
