@@ -85,6 +85,8 @@ router.get('/api/employee/company',  async (req, res)=> {
     }
 });
 
+
+
 router.get('/employee/data',  async (req, res)=> {
     const {user_id} = req.body;
     try{
