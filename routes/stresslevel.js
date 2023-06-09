@@ -3,7 +3,7 @@ const router = express.Router();
 const connection = require('../database');
 
 // Endpoint untuk menghitung stress level mingguan
-router.get('/stress-level/weekly/:id', async (req, res) => {
+router.get('/weekly/:id', async (req, res) => {
  
   const id = req.params.id;
 
@@ -35,7 +35,7 @@ router.get('/stress-level/weekly/:id', async (req, res) => {
 
 
 // Endpoint untuk menyimpan stress level mingguan
-router.post('/stress-level/add/:id', async (req, res) => {
+router.post('/add/:id', async (req, res) => {
   const { stressLevel } = req.body;
   const id = req.params.id;
 

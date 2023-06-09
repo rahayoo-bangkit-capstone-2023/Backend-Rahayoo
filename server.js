@@ -34,7 +34,7 @@ app.get('/', (req, res)  => {
 
 // ROUTER HERE
 app.use('/api/auth', authenticateToken, authRouter);
-app.use('/api/stress', authenticateToken, stressLevelRouter);
+app.use('/api/stress-level', authenticateToken, stressLevelRouter);
 
 
 app.post('/company/:input', async (req, res)=> {
