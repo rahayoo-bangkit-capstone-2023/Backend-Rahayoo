@@ -29,7 +29,7 @@ app.listen(PORT, (error)=> {
 })
 
 app.get('/', (req, res)  => {
-    res.send('Hello World! it is on', process.env.DB_HOST)
+    res.send('Hello World! it is on')
 
 })
 
