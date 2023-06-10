@@ -4,7 +4,7 @@ const app = express();
 const PORT = 8080;
 const serviceaccount = JSON.parse(process.env.SERVICE_ACCOUNT_KEY)
 const admin = require('firebase-admin')
-const connection = require('./database')
+const client = require('./database')
 
 // IMPORT ROUTES HERE
 const authRouter = require('./routes/auth')
