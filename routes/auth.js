@@ -55,7 +55,7 @@ router.post('/user-update', async (req, res)=> {
 });
 
 // UPDATE USERS COMPANY
-router.get('/api/employee/company',  async (req, res)=> {
+router.get('/company',  async (req, res)=> {
     const {company_code} = req.body;
     try{
         
