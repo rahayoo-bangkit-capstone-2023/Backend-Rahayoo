@@ -32,6 +32,13 @@ app.get('/', (req, res)  => {
     res.send('Hello World! it is on')
 })
 
+// app.get('/db',authenticateToken, (res)  => {
+//     client.query('SELECT version()'  , (err, res) => {
+//         console.log(err, res)
+//     })
+// })
+
+
 // ROUTER HERE
 app.use('/api/auth', authenticateToken, authRouter);
 app.use('/api/stress-level', authenticateToken, stressLevelRouter);

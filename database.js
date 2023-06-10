@@ -20,5 +20,5 @@ client.connect((err) => {
     }
     console.log('Connected to Postgres database');
   });
-  
+
   module.exports = client;

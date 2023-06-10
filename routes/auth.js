@@ -18,8 +18,8 @@ router.post('/register',  async (req, res)=> {
                     res.status(500).json({message: 'Internal Server Error'})
                     console.log(results);
                 }
-                const response = {message: 'User Registered', user_id: results.rows[0].employee_id}
-                res.status(200).json(response);
+            const response = {message: 'User Registered', user_id: results.rows[0].employee_id}
+            res.status(200).json(response);
         });
     } catch(error) {
         console.error(error)
