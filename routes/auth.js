@@ -28,7 +28,8 @@ router.post('/register',  async (req, res)=> {
 });
 
 // UPDATE SAVED USER
-router.post('/user-update', async (req, res)=> {
+router.post('/user-update/:id', async (req, res)=> {
+    const id = req.params.id;
     const {name, address, date_of_birth, age, job_title, department, email} = req.body;
     try{
         const findDepartment = 'SELECT * FROM department WHERE department_name = $1';
@@ -40,7 +41,7 @@ router.post('/user-update', async (req, res)=> {
             if (!results.length == 0){
                 const department_id = results[0].department_id;
                 console.log(department_id);
-                const sql = 'INSERT INTO employees (name, address, date_of_birth, age, job_title, department_id, email, company_id) VALUES ($1, $2, $3, $4, $5, $6, $7)';
+                const sql = `INSERT INTO employees (name, address, date_of_birth, age, job_title, department_id, email, company_id) VALUES ($1, $2, $3, $4, $5, $6, $7) WHERE employee_id = '${id}'`;
                 client.query(sql, [name, address, date_of_birth, age, job_title, department_id, email]);
                 res.status(200).json({message: 'Department found, new user added'});
             } else {
