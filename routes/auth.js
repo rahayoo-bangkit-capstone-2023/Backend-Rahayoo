@@ -56,18 +56,18 @@ router.post('/user-update', async (req, res)=> {
 
 // UPDATE USERS COMPANY
 router.get('/company',  async (req, res)=> {
-    const {company_code} = req.body;
+    const {company_code, employee_id} = req.body;
     try{
         
         const sql = 'SELECT * FROM company WHERE company_code = $1';
-        const sqlInsert = 'INSERT INTO employees (company_id) VALUES ($1)';
+        const sqlInsert = 'INSERT INTO employees (company_id) VALUES ($1) WHERE employee_id = $2';
         await client.query(sql, [company_code], (error, results)=> {
             if (error){
                 console.error(error);
                 res.status(500).json({message: 'Internal Server Error'})
             }
             if (!results.length == 0){
-            client.query(sqlInsert, [results[0].company_id]);
+            client.query(sqlInsert, [results[0].company_id, employee_id]);
             const response = {
                 company_id: results[0].company_id,
                 company_name: results[0].company_name,
@@ -85,6 +85,23 @@ router.get('/company',  async (req, res)=> {
     }
 });
 
+
+router.get('/employee',  async (req, res)=> {
+    const {user_id} = req.body;
+    try{
+        const sql = 'SELECT * FROM employees WHERE employee_id = $1';
+        await client.query(sql, [user_id], (error, results)=> {
+            if (error){
+                console.error(error);
+                res.status(500).json({message: 'Internal Server Error'})
+            }
+        res.status(200).json(results.rows[0]);
+        });
+    }catch(error) {
+        console.error(error)
+        res.status(500).json({message: 'Internal Server Error'})
+    }
+});
 
 
 router.get('/employee/data',  async (req, res)=> {
