@@ -47,12 +47,12 @@ app.use('/api/auth', authenticateToken, authRouter);
 app.use('/api/stress-level', authenticateToken, stressLevelRouter);
 
 
-app.post('/company/:input', async (req, res)=> {
-    const userInput = req.params.input;
-    const sql = 'INSERT INTO company (company_name) VALUES (?)';
-    await client.query(sql, [userInput]);
-    res.status(200).json({message: 'New Company Added'});
-})
+// app.post('/company/:input', async (req, res)=> {
+//     const userInput = req.params.input;
+//     const sql = 'INSERT INTO company (company_name) VALUES (?)';
+//     await client.query(sql, [userInput]);
+//     res.status(200).json({message: 'New Company Added'});
+// })
 
 
 app.post('/company/:input', async (req, res) => {
