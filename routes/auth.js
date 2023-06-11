@@ -104,11 +104,11 @@ router.get('/employee',  async (req, res)=> {
 });
 
 
-router.get('/employee/data',  async (req, res)=> {
-    const {user_id} = req.body;
+router.get('/employee/data/:id',  async (req, res)=> {
+    const id = req.params.id;
     try{
-        const sql = 'SELECT * FROM employees WHERE employee_id = $1';
-        await client.query(sql, [user_id], (error, results)=> {
+        const sql = `SELECT * FROM employees WHERE employee_id = '${id}'`;
+        await client.query(sql, (error, results)=> {
             if (error){
                 console.error(error);
                 res.status(500).json({message: 'Internal Server Error'})
