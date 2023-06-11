@@ -36,7 +36,9 @@ app.get('/', (req, res)  => {
 // app.get('/db',authenticateToken, (res)  => {
 //     client.query('SELECT version()'  , (err, res) => {
 //         console.log(err, res)
+//        client.end()
 //     })
+
 // })
 
 
