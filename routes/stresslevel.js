@@ -33,15 +33,6 @@ router.get('/weekly/:id', async (req, res) => {
   }
 });
 
-router.get('/mood/:id', async (req, res) => {
-  const id = req.params.id;
-  try {
-    res.status(200).json({ message: '3' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
-  }
-});
 
 // Endpoint untuk menyimpan stress level mingguan
 router.post('/add/:id', async (req, res) => {

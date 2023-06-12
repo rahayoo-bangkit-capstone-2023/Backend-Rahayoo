@@ -9,6 +9,7 @@ const client = require('./database')
 // IMPORT ROUTES HERE
 const authRouter = require('./routes/auth')
 const stressLevelRouter = require('./routes/stresslevel')
+const moodRouter = require('./routes/mood')
 
 // IMPORT MIDDLEWARES HERE
 const authenticateToken = require('./middlewares/authorization')
@@ -45,6 +46,7 @@ app.get('/', (req, res)  => {
 // ROUTER HERE
 app.use('/api/auth', authenticateToken, authRouter);
 app.use('/api/stress-level', authenticateToken, stressLevelRouter);
+app.use('/api/mood', authenticateToken, moodRouter);
 
 app.post('/company/:input', async (req, res) => {
   const userInput = req.params.input;
