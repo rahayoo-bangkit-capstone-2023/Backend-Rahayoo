@@ -28,33 +28,31 @@ router.post('/register',  async (req, res)=> {
 });
 
 // UPDATE SAVED USER
-router.post('/user-update/:id', async (req, res)=> {
+router.post('/user-update/:id', async (req, res) => {
     const id = req.params.id;
-    const {name, address, date_of_birth, age, job_title, department, email} = req.body;
-    try{
-        const findDepartment = 'SELECT department_id FROM department WHERE department_name = $1';
-        await client.query(findDepartment, [department], (error, results)=> {
-            if(error){
-                console.error(error);
-                res.status(500).json({message: 'Internal Server Error'})
-            }
-            console.log(results)
-            if (!results.rows.length == 0){
-                const department_id = results.rows.department_id;
-                console.log(department_id);
-                const sql = `INSERT INTO employees (name, address, date_of_birth, age, job_title, department_id, email, company_id) VALUES ($1, $2, $3, $4, $5, $6, $7) WHERE employee_id = '${id}'`;
-                client.query(sql, [name, address, date_of_birth, age, job_title, findDepartment, email]);
-                res.status(200).json({message: 'Department found, new user added'});
-            } else {
-                res.status(403).json({message: 'Department Not Found'});
-            }
-            
-        });
-    } catch(error) {
-        console.error(error)
-        res.status(500).json({message: 'Internal Server Error'})
+    const { name, address, date_of_birth, age, job_title, department, email } = req.body;
+  
+    try {
+      const findDepartment = 'SELECT department_id FROM department WHERE department_name = $1';
+      const departmentResult = await client.query(findDepartment, [department]);
+  
+      if (departmentResult.rows.length !== 0) {
+        const department_id = departmentResult.rows[0].department_id;
+  
+        const sql = `UPDATE employees SET name = $1, address = $2, date_of_birth = $3, age = $4, job_title = $5, department_id = $6, email = $7 WHERE employee_id = $8`;
+        const values = [name, address, date_of_birth, age, job_title, department_id, email, id];
+  
+        await client.query(sql, values);
+        res.status(200).json({ message: 'User updated successfully' });
+      } else {
+        res.status(403).json({ message: 'Department Not Found' });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal Server Error' });
     }
-});
+  });
+  
 
 // UPDATE USERS COMPANY
 router.get('/company',  async (req, res)=> {

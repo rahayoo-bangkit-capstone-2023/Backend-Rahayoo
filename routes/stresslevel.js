@@ -45,13 +45,17 @@ router.post('/add/:id', async (req, res) => {
     }
     stressValue = stressValue + currentValue;
   }
-  console.log(stressValue);
   const id = req.params.id;
   try {
     const sql = `INSERT INTO stress_level (employee_id, date, stress_value) VALUES ($1, current_date, $2)`;
-    await connection.query(sql,  id ,stressValue);
-
-    res.status(201).json({ message: 'Daily stress level saved successfully' });
+    await connection.query(sql, [id, stressValue], (error)=> {
+      if (error){
+          console.error(error);
+          res.status(500).json({message: 'Internal Server Error'})
+      }
+      const response = {message: 'Stress Level Added'}
+      res.status(200).json(response);
+    })
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });
