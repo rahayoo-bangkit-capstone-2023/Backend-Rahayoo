@@ -37,11 +37,19 @@ router.get('/weekly/:id', async (req, res) => {
 // Endpoint untuk menyimpan stress level mingguan
 router.post('/add/:id', async (req, res) => {
   const { stressLevel } = req.body;
+  var stressValue = 0;
+  for (let i = 0; i < stressLevel.length; i++) {
+    var currentValue = stressLevel[i];
+    if  (i===3 || i===4 || i===6 ||i===7){
+      currentValue = (4-stressLevel[i]);
+    }
+    stressValue = stressValue + currentValue;
+  }
+  console.log(stressValue);
   const id = req.params.id;
-  const stressValueReversed = stressLevel.map((item) => item.stress_value);
   try {
-    const sql = `INSERT INTO stress_level (employee_id, date, stress_value) VALUES ('${id}', current_date, $1),('${id}', current_date, $2),('${id}', current_date, $3),('${id}', current_date, $4),('${id}', current_date, $5),('${id}', current_date, $6),('${id}', current_date, $7),('${id}', current_date, $8),('${id}', current_date, $9),('${id}', current_date, $10)`;
-    await connection.query(sql, stressLevel);
+    const sql = `INSERT INTO stress_level (employee_id, date, stress_value) VALUES ($1, current_date, $2)`;
+    await connection.query(sql,  id ,stressValue);
 
     res.status(201).json({ message: 'Daily stress level saved successfully' });
   } catch (error) {
