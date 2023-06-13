@@ -5,19 +5,21 @@ const connection = require('../database');
 
 router.get('/weekly-calendar/:id', async (req, res) => {
     const id = req.params.id;
-    const sqlCalendar = `SELECT mood_value, date, employee_id FROM mood WHERE employee_id=$1 AND date BETWEEN current_date - interval '7' day AND current_date ORDER BY date ASC`
-    const sqlStressWeek =  `SELECT AVG(stress_value) AS stress_value FROM stress_level WHERE employee_id=$1`
-    const sqlMoodWeek = `SELECT mood_value FROM mood WHERE employee_id = $1 AND date BETWEEN current_date - interval '7' day AND current_date GROUP BY mood_value ORDER BY COUNT(*) DESC LIMIT 1;`
+    const sqlCalendar = `SELECT mood_value, date, employee_id FROM mood WHERE employee_id=$1 AND date BETWEEN current_date - interval '7' day AND current_date ORDER BY date ASC`;
+    const sqlStressWeek = `SELECT AVG(stress_value) AS stress_value FROM stress_level WHERE employee_id=$1`;
+    const sqlMoodWeek = `SELECT mood_value FROM mood WHERE employee_id = $1 AND date BETWEEN current_date - interval '7' day AND current_date GROUP BY mood_value ORDER BY COUNT(*) DESC LIMIT 1;`;
+  
     try {
       const resultCalendar = await connection.query(sqlCalendar, [id]);
       const resultStressWeek = await connection.query(sqlStressWeek, [id]);
       const resultMoodWeek = await connection.query(sqlMoodWeek, [id]);
+  
       const counts = resultCalendar.rows.reduce((acc, obj) => {
         const key = obj.date;
         acc[key] = (acc[key] || 0) + 1;
         return acc;
       }, {});
-      
+  
       const uniqueArray = Object.values(resultCalendar.rows.reduce((acc, obj) => {
         const key = obj.date;
         if (!acc[key] || acc[key].count < counts[key]) {
@@ -25,18 +27,21 @@ router.get('/weekly-calendar/:id', async (req, res) => {
           acc[key].count = counts[key];
         }
         return acc;
-      }, {}));
+      }, []));
+  
       const response = {
-            weekly_stress_avg: resultStressWeek.rows[0].stress_value,
-            weekly_mood: resultMoodWeek.rows[0].mood_value,
-            weekly_calendar: uniqueArray
-      }
+        weekly_stress_avg: resultStressWeek.rows.length > 0 ? resultStressWeek.rows[0].stress_value : null,
+        weekly_mood: resultMoodWeek.rows.length > 0 ? resultMoodWeek.rows[0].mood_value : null,
+        weekly_calendar: uniqueArray,
+      };
+  
       res.status(200).json(response);
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Internal Server Error' });
     }
   });
+  
   
 router.post('/add/:id', async (req, res) => {
     const randomArray = ["joy", "sadness", "anger", "fear", "love"];
