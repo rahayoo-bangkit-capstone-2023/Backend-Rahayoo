@@ -3,16 +3,18 @@ const router = express.Router();
 const connection = require('../database');
 
 
-router.get('/calendar/:id', async (req, res) => {
+router.get('/weekly-calendar/:id', async (req, res) => {
     const id = req.params.id;
+    const sql = `SELECT * FROM mood WHERE employee_id = $1 AND date BETWEEN current_date - interval '7' day AND current_date`;
     try {
-      res.status(200).json({ message: '3' });
+      const result = await connection.query(sql, [id]);
+      res.status(200).json(result.rows);
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Internal Server Error' });
     }
-});
-
+  });
+  
 router.post('/add/:id', async (req, res) => {
     const randomArray = ["joy", "sadness", "anger", "fear", "love"];
     const moodLevel = Math.random() * 4;
