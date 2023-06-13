@@ -24,6 +24,7 @@ router.get('/weekly/:id', async (req, res) => {
 
 
 // Endpoint untuk menyimpan stress level mingguan
+
 router.post('/add/:id', async (req, res) => {
   const { stressLevel } = req.body;
   var stressValue = 0;
