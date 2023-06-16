@@ -5,10 +5,10 @@ const client = require('../database');
 
 // REGISTER USER DATA TO DB
 router.post('/register',  async (req, res)=> {
-    const {email, name} = req.body;
+    const {email, name, uid} = req.body;
     try{
-        const sql = 'INSERT INTO employees (email, name) VALUES ($1, $2) RETURNING employee_id';
-        await client.query(sql, [email, name], (error,results)=> {
+        const sql = 'INSERT INTO employees (email, name, uid) VALUES ($1, $2, $3) RETURNING employee_id';
+        await client.query(sql, [email, name, uid], (error,results)=> {
             if (error){
                 console.error(error);
                 res.status(500).json({message: 'Internal Server Error'})
