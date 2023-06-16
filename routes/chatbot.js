@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const client = require('../database');
 const axios = require('axios');
+const FormData = require('form-data');
+
 
 router.post('/chatbot/:id', async (req, res) => {
     console.log("flag0");
