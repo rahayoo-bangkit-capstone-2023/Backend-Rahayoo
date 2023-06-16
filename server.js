@@ -5,6 +5,7 @@ const PORT = 8080;
 const serviceaccount = JSON.parse(process.env.SERVICE_ACCOUNT_KEY)
 const admin = require('firebase-admin')
 const client = require('./database')
+const path = require('path');
 
 // IMPORT ROUTES HERE
 const authRouter = require('./routes/auth')
@@ -30,10 +31,10 @@ app.listen(PORT, (error)=> {
         console.log("Error occurred, server can't start", error)
 })
 
-// app.get('/', (req, res)  => {
-//     res.send('Hello World! it is on')
-
-// })
+app.get('/', (req, res)  => {
+    const filePath = path.join(__dirname, 'public', 'index.html');
+    res.sendFile(filePath);
+})
 
 // app.get('/db',authenticateToken, (res)  => {
 //     client.query('SELECT version()'  , (err, res) => {
