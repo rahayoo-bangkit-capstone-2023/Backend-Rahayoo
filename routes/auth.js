@@ -27,10 +27,27 @@ router.post('/register',  async (req, res)=> {
     }
 });
 
+router.get('/userid/',  async (req, res)=> {
+    const {email, uid} = req.body;
+    const sqlGet = 'SELECT employee_id FROM employees WHERE email = $1 AND uid = $2';
+    try{
+        await client.query(sqlGet, [email, uid], (error, results)=> {
+            if(error){
+                console.error(error);
+                res.status(500).json({message: 'Internal Server Error'})
+            }
+            res.status(200).json(results.rows[0].employee_id);
+        })
+    } catch (error){
+        console.error(error);
+        res.status(500).json({message: 'Internal Server Error'})
+    }
+})
+
 // UPDATE SAVED USER
 router.post('/user-update/:id', async (req, res) => {
     const id = req.params.id;
-    const { name, address, date_of_birth, age, job_title, department, email } = req.body;
+    const { name, address, date_of_birth, age, job_title, department, email, uid } = req.body;
   
     try {
       const findDepartment = 'SELECT department_id FROM department WHERE department_name = $1';
@@ -39,8 +56,8 @@ router.post('/user-update/:id', async (req, res) => {
       if (departmentResult.rows.length !== 0) {
         const department_id = departmentResult.rows[0].department_id;
   
-        const sql = `UPDATE employees SET name = $1, address = $2, date_of_birth = $3, age = $4, job_title = $5, department_id = $6, email = $7 WHERE employee_id = $8`;
-        const values = [name, address, date_of_birth, age, job_title, department_id, email, id];
+        const sql = `UPDATE employees SET name = $1, address = $2, date_of_birth = $3, age = $4, job_title = $5, department_id = $6, email = $7, uid=$9 WHERE employee_id = $8`;
+        const values = [name, address, date_of_birth, age, job_title, department_id, email, id, uid];
   
         await client.query(sql, values);
         res.status(200).json({ message: 'User updated successfully' });
@@ -50,7 +67,7 @@ router.post('/user-update/:id', async (req, res) => {
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Internal Server Error' });
-    }
+    }u
   });
   
 
