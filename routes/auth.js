@@ -27,7 +27,7 @@ router.post('/register',  async (req, res)=> {
     }
 });
 
-router.get('/userid/',  async (req, res)=> {
+router.post('/userid',  async (req, res)=> {
     const {email, uid} = req.body;
     const sqlGet = 'SELECT employee_id FROM employees WHERE email = $1 AND uid = $2';
     try{
