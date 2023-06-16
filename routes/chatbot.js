@@ -4,6 +4,7 @@ const client = require('../database');
 const axios = require('axios');
 
 router.post('/chatbot/:id', async (req, res) => {
+    console.log("flag0");
     const { chat } = req.body;
     const employee_id = req.params.id;
     const chatbotUrl = 'https://chatbot.rahayoo.com/get';
