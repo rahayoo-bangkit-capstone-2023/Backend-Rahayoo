@@ -6,7 +6,7 @@ const connection = require('../database');
 router.get('/weekly-calendar/:id', async (req, res) => {
     const id = req.params.id;
     const sqlCalendar = `SELECT mood_value, date, employee_id FROM mood WHERE employee_id=$1 AND date BETWEEN current_date - interval '7' day AND current_date ORDER BY date ASC`;
-    const sqlStressWeek = `SELECT AVG(stress_value) AS stress_value FROM stress_level WHERE employee_id=$1`;
+    const sqlStressWeek = `SELECT AVG(stress_value) AS stress_value FROM stress_level WHERE employee_id=$1 AND date BETWEEN current_date - interval '7' day AND current_date ORDER BY date ASC`;
     const sqlMoodWeek = `SELECT mood_value FROM mood WHERE employee_id = $1 AND date BETWEEN current_date - interval '7' day AND current_date GROUP BY mood_value ORDER BY COUNT(*) DESC LIMIT 1;`;
   
     try {
@@ -42,7 +42,7 @@ router.get('/weekly-calendar/:id', async (req, res) => {
     }
   });
   
-  
+
 router.post('/add/:id', async (req, res) => {
     const randomArray = ["joy", "sadness", "anger", "fear", "love"];
     const moodLevel = Math.random() * 4;

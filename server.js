@@ -10,6 +10,7 @@ const client = require('./database')
 const authRouter = require('./routes/auth')
 const stressLevelRouter = require('./routes/stresslevel')
 const moodRouter = require('./routes/mood')
+const chatbotRouter = require('./routes/chatbot')
 
 // IMPORT MIDDLEWARES HERE
 const authenticateToken = require('./middlewares/authorization')
@@ -29,10 +30,10 @@ app.listen(PORT, (error)=> {
         console.log("Error occurred, server can't start", error)
 })
 
-app.get('/', (req, res)  => {
-    res.send('Hello World! it is on')
+// app.get('/', (req, res)  => {
+//     res.send('Hello World! it is on')
 
-})
+// })
 
 // app.get('/db',authenticateToken, (res)  => {
 //     client.query('SELECT version()'  , (err, res) => {
@@ -47,6 +48,7 @@ app.get('/', (req, res)  => {
 app.use('/api/auth', authenticateToken, authRouter);
 app.use('/api/stress-level', authenticateToken, stressLevelRouter);
 app.use('/api/mood', authenticateToken, moodRouter);
+app.use('/api', authenticateToken, chatbotRouter);
 
 app.post('/company/:input', async (req, res) => {
   const userInput = req.params.input;

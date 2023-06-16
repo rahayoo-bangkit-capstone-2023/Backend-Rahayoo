@@ -5,7 +5,6 @@ const connection = require('../database');
 // Endpoint untuk menghitung stress level mingguan
 router.get('/weekly/:id', async (req, res) => {
   const id = req.params.id;
-
   try {
     const avg = 'SELECT AVG(stress_value) AS average_value FROM stress_level WHERE employee_id=$1';
     const resultAvg = await connection.query(avg, [id]);
@@ -43,7 +42,8 @@ router.post('/add/:id', async (req, res) => {
           console.error(error);
           res.status(500).json({message: 'Internal Server Error'})
       }
-      const response = {message: 'Stress Level Added'}
+      const response = {message: 'Stress Level Added',
+                        stress_value: stressValue}
       res.status(200).json(response);
     })
   } catch (error) {
